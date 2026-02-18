@@ -71,7 +71,6 @@
       gap: 1rem;
     }
 
-    /* لوگو */
     .site-logo {
       height: 38px;
       display: block;
@@ -169,10 +168,7 @@
       transition: height 0.1s linear;
     }
 
-    /* ============================
-       کامنت‌ها – نسخهٔ ریسپانسیو
-    ============================ */
-
+    /* کامنت‌ها – نسخهٔ ریسپانسیو */
     .comments-section {
       margin-top: 2.5rem;
       padding-top: 1.5rem;
@@ -299,7 +295,6 @@
   <div class="nav-container">
     <button id="menu-btn">☰</button>
 
-    <!-- لوگو -->
     <a href="{{ '/' | relative_url }}">
       <img src="https://www.pasgah.org/blog.svg" alt="وبلاگ پاسگاه" class="site-logo">
     </a>
@@ -354,11 +349,19 @@
 
   // Progress فقط برای پست‌ها
   if (document.body.classList.contains('post-page')) {
+    const postStart = document.querySelector('article');
+    const postEnd = document.querySelector('.comments-section') || document.querySelector('footer');
+
     window.addEventListener('scroll', () => {
-      const h = document.documentElement;
-      const scrolled = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
-      document.getElementById('progress').style.width = scrolled + '%';
-      document.getElementById('progress-side-inner').style.height = scrolled + '%';
+      const start = postStart.offsetTop;
+      const end = postEnd.offsetTop + postEnd.offsetHeight;
+      const total = end - start;
+
+      const scroll = window.scrollY + window.innerHeight / 2;
+      const progress = Math.min(Math.max((scroll - start) / total, 0), 1);
+
+      document.getElementById('progress').style.width = (progress * 100) + '%';
+      document.getElementById('progress-side-inner').style.height = (progress * 100) + '%';
     });
   }
 </script>
