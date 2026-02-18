@@ -8,10 +8,10 @@
 
   {% seo %}
 
+  <!-- فونت فارسی Vazirmatn -->
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600&display=swap" rel="stylesheet">
+
   <style>
-    /* ------------------------------
-       متغیرهای تم
-    ------------------------------ */
     :root {
       --bg: #ffffff;
       --text: #1f2937;
@@ -23,33 +23,27 @@
     }
 
     body.dark {
-      --bg: #0f172a;
-      --text: #e2e8f0;
-      --card: #1e293b;
+      --bg: #020617;
+      --text: #e5e7eb;
+      --card: #020617;
       --link: #60a5fa;
-      --border: #334155;
-      --header-bg: #0f172acc;
-      --header-text: #e2e8f0;
+      --border: #1f2937;
+      --header-bg: #020617cc;
+      --header-text: #e5e7eb;
     }
 
-    /* ------------------------------
-       ساختار کلی
-    ------------------------------ */
     body {
       margin: 0;
       background: var(--bg);
       color: var(--text);
-      font-family: system-ui, sans-serif;
-      line-height: 1.8;
+      font-family: "Vazirmatn", system-ui, sans-serif;
+      line-height: 1.9;
       transition: background 0.3s, color 0.3s;
     }
 
     a { color: var(--link); text-decoration: none; }
     a:hover { text-decoration: underline; }
 
-    /* ------------------------------
-       هدر چسبان
-    ------------------------------ */
     header {
       position: sticky;
       top: 0;
@@ -62,68 +56,66 @@
     .nav-container {
       max-width: 900px;
       margin: auto;
-      padding: 1rem;
+      padding: 0.7rem 1rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 1rem;
     }
 
     .site-title a {
-      font-size: 1.4rem;
-      font-weight: bold;
+      font-size: 1.3rem;
+      font-weight: 600;
       color: var(--header-text);
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
     }
 
     nav a {
-      margin-left: 1rem;
       color: var(--header-text);
-      font-size: 0.95rem;
+      font-size: 0.9rem;
     }
 
-    /* ------------------------------
-       منوی موبایل
-    ------------------------------ */
     #menu-btn {
       display: none;
       background: none;
       border: none;
-      font-size: 1.5rem;
+      font-size: 1.6rem;
       color: var(--header-text);
       cursor: pointer;
     }
 
-    @media (max-width: 700px) {
-      nav {
-        display: none;
-        flex-direction: column;
-        padding: 1rem;
-        background: var(--card);
-        border-top: 1px solid var(--border);
-      }
-      nav a { margin: 0.5rem 0; }
-      #menu-btn { display: block; }
+    #theme-toggle {
+      background: none;
+      border: 1px solid var(--border);
+      padding: 4px 10px;
+      border-radius: 999px;
+      cursor: pointer;
+      color: var(--header-text);
+      font-size: 0.85rem;
     }
 
-    /* ------------------------------
-       Progress Bar
-    ------------------------------ */
-    #progress {
-      position: fixed;
-      top: 0;
-      right: 0;
-      height: 4px;
-      background: var(--link);
-      width: 0%;
-      z-index: 200;
+    .search-box {
+      position: relative;
     }
 
-    /* ------------------------------
-       محتوا
-    ------------------------------ */
+    .search-box input {
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      font-size: 0.85rem;
+    }
+
     .container {
       max-width: 900px;
       margin: auto;
-      padding: 2rem 1rem;
+      padding: 2rem 1rem 3rem;
     }
 
     footer {
@@ -135,25 +127,46 @@
       font-size: 0.9rem;
     }
 
-    /* دکمه تم */
-    #theme-toggle {
-      background: none;
-      border: 1px solid var(--border);
-      padding: 6px 12px;
-      border-radius: 6px;
-      cursor: pointer;
-      color: var(--header-text);
+    #progress {
+      position: fixed;
+      top: 0;
+      right: 0;
+      height: 3px;
+      background: var(--link);
+      width: 0%;
+      z-index: 200;
+    }
+
+    @media (max-width: 700px) {
+      .nav-container {
+        justify-content: space-between;
+      }
+      nav {
+        display: none;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 0.5rem 1rem 1rem;
+        background: var(--bg);
+        border-top: 1px solid var(--border);
+      }
+      #menu-btn {
+        display: block;
+      }
+      .search-box {
+        width: 100%;
+      }
+      .search-box input {
+        width: 100%;
+      }
     }
   </style>
 </head>
 
 <body>
-
 <div id="progress"></div>
 
 <header>
   <div class="nav-container">
-
     <button id="menu-btn">☰</button>
 
     <h1 class="site-title">
@@ -161,14 +174,21 @@
     </h1>
 
     <nav id="nav">
-      <a href="/">خانه</a>
-      <a href="/archive/">آرشیو</a>
-      <a href="/categories/">دسته‌بندی‌ها</a>
-      <a href="/tags/">برچسب‌ها</a>
-      <a href="/about/">درباره</a>
+      <a href="{{ '/' | relative_url }}">خانه</a>
+      <a href="{{ '/archive/' | relative_url }}">آرشیو</a>
+      <a href="{{ '/categories/' | relative_url }}">دسته‌بندی‌ها</a>
+      <a href="{{ '/tags/' | relative_url }}">برچسب‌ها</a>
+      <a href="{{ '/timeline/' | relative_url }}">تایم‌لاین</a>
+      <a href="{{ '/about/' | relative_url }}">درباره</a>
+
+      <div class="search-box">
+        <form action="{{ '/search/' | relative_url }}" method="get">
+          <input type="text" name="q" placeholder="جستجو..." />
+        </form>
+      </div>
+
       <button id="theme-toggle">🌓</button>
     </nav>
-
   </div>
 </header>
 
@@ -181,25 +201,38 @@
 </div>
 
 <script>
-  /* تم تاریک */
+  // تم تاریک: پیش‌فرض dark اگر چیزی ذخیره نشده
+  const savedTheme = localStorage.getItem('theme');
+  if (!savedTheme || savedTheme === 'dark') {
+    document.body.classList.add('dark');
+    localStorage.setItem('theme', 'dark');
+  }
+
   const themeBtn = document.getElementById('theme-toggle');
-  if (localStorage.getItem('theme') === 'dark') document.body.classList.add('dark');
   themeBtn.onclick = () => {
     document.body.classList.toggle('dark');
-    localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+    localStorage.setItem('theme',
+      document.body.classList.contains('dark') ? 'dark' : 'light'
+    );
   };
 
-  /* منوی موبایل */
+  // منوی موبایل
   const menuBtn = document.getElementById('menu-btn');
   const nav = document.getElementById('nav');
-  menuBtn.onclick = () => nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
+  menuBtn.onclick = () => {
+    if (getComputedStyle(nav).display === 'none') {
+      nav.style.display = 'flex';
+    } else {
+      nav.style.display = 'none';
+    }
+  };
 
-  /* Progress Bar */
-  window.onscroll = () => {
+  // Progress Bar
+  window.addEventListener('scroll', () => {
     const h = document.documentElement;
     const scrolled = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
-    document.getElementById('progress').style.width = scrolled + "%";
-  };
+    document.getElementById('progress').style.width = scrolled + '%';
+  });
 </script>
 
 </body>
