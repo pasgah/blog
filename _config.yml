@@ -1,0 +1,7 @@
+title: "وبلاگ من"
+description: "چند خط درباره وبلاگ"
+markdown: kramdown
+theme: null
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
