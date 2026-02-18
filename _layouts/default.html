@@ -2,14 +2,21 @@
 <html lang="fa" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <title>{% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}</title>
-  <meta name="description" content="{{ page.description | default: site.description }}">
+  <title>{% if page.title %}{{ page.title }} | {% endif %}وبلاگ پاسگاه</title>
+  <meta name="description" content="{{ page.description | default: 'تاریخ و تمدن ایران و جهان' }}">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   {% seo %}
 
-  <!-- فونت فارسی Vazirmatn -->
-  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600&display=swap" rel="stylesheet">
+  <!-- فونت وزیر از سرور پاسگاه -->
+  <style>
+    @font-face {
+      font-family: 'Vazirmatn';
+      src: url('https://www.pasgah.org/blog.woff2') format('woff2');
+      font-weight: 300 700;
+      font-display: swap;
+    }
+  </style>
 
   <style>
     :root {
@@ -63,10 +70,10 @@
       gap: 1rem;
     }
 
-    .site-title a {
-      font-size: 1.3rem;
-      font-weight: 600;
-      color: var(--header-text);
+    /* لوگو */
+    .site-logo {
+      height: 38px;
+      display: block;
     }
 
     nav {
@@ -99,10 +106,6 @@
       font-size: 0.85rem;
     }
 
-    .search-box {
-      position: relative;
-    }
-
     .search-box input {
       padding: 4px 10px;
       border-radius: 999px;
@@ -127,7 +130,13 @@
       font-size: 0.9rem;
     }
 
-    #progress {
+    /* Progress Bar فقط برای پست‌ها */
+    #progress, #progress-side {
+      display: none;
+    }
+
+    body.post-page #progress {
+      display: block;
       position: fixed;
       top: 0;
       right: 0;
@@ -137,8 +146,8 @@
       z-index: 200;
     }
 
-    /* نوار پیشرفت عمودی سمت چپ */
-    #progress-side {
+    body.post-page #progress-side {
+      display: block;
       position: fixed;
       left: 8px;
       top: 60px;
@@ -149,7 +158,8 @@
       overflow: hidden;
       z-index: 150;
     }
-    #progress-side-inner {
+
+    body.post-page #progress-side-inner {
       width: 100%;
       height: 0%;
       background: var(--link);
@@ -158,9 +168,6 @@
     }
 
     @media (max-width: 700px) {
-      .nav-container {
-        justify-content: space-between;
-      }
       nav {
         display: none;
         flex-direction: column;
@@ -172,20 +179,15 @@
       #menu-btn {
         display: block;
       }
-      .search-box {
-        width: 100%;
-      }
-      .search-box input {
-        width: 100%;
-      }
       #progress-side {
-        display:none;
+        display:none !important;
       }
     }
   </style>
 </head>
 
-<body>
+<body class="{% if page.layout == 'post' %}post-page{% endif %}">
+
 <div id="progress"></div>
 <div id="progress-side"><div id="progress-side-inner"></div></div>
 
@@ -193,20 +195,21 @@
   <div class="nav-container">
     <button id="menu-btn">☰</button>
 
-    <h1 class="site-title">
-      <a href="{{ '/' | relative_url }}">{{ site.title }}</a>
-    </h1>
+    <!-- لوگو -->
+    <a href="{{ '/' | relative_url }}">
+      <img src="https://www.pasgah.org/blog.svg" alt="لوگو" class="site-logo">
+    </a>
 
     <nav id="nav">
-      <a href="{{ '/' | relative_url }}">خانه</a>
-      <a href="{{ '/archive/' | relative_url }}">آرشیو</a>
-      <a href="{{ '/categories/' | relative_url }}">دسته‌بندی‌ها</a>
-      <a href="{{ '/tags/' | relative_url }}">برچسب‌ها</a>
-      <a href="{{ '/timeline/' | relative_url }}">تایم‌لاین</a>
-      <a href="{{ '/about/' | relative_url }}">درباره</a>
+      <a href="/">خانه</a>
+      <a href="/archive/">آرشیو</a>
+      <a href="/categories/">دسته‌بندی‌ها</a>
+      <a href="/tags/">برچسب‌ها</a>
+      <a href="/timeline/">تایم‌لاین</a>
+      <a href="/about/">درباره</a>
 
       <div class="search-box">
-        <form action="{{ '/search/' | relative_url }}" method="get">
+        <form action="/search/" method="get">
           <input type="text" name="q" placeholder="جستجو..." />
         </form>
       </div>
@@ -220,20 +223,19 @@
   {{ content }}
 
   <footer>
-    © {{ site.time | date: '%Y' }} {{ site.title }} — ساخته شده با Jekyll و GitHub Pages
+    © {{ site.time | date: '%Y' }} وبلاگ پاسگاه — تاریخ و تمدن ایران و جهان
   </footer>
 </div>
 
 <script>
-  // تم تاریک: پیش‌فرض dark
+  // تم تاریک پیش‌فرض
   const savedTheme = localStorage.getItem('theme');
   if (!savedTheme || savedTheme === 'dark') {
     document.body.classList.add('dark');
     localStorage.setItem('theme', 'dark');
   }
 
-  const themeBtn = document.getElementById('theme-toggle');
-  themeBtn.onclick = () => {
+  document.getElementById('theme-toggle').onclick = () => {
     document.body.classList.toggle('dark');
     localStorage.setItem('theme',
       document.body.classList.contains('dark') ? 'dark' : 'light'
@@ -244,20 +246,18 @@
   const menuBtn = document.getElementById('menu-btn');
   const nav = document.getElementById('nav');
   menuBtn.onclick = () => {
-    if (getComputedStyle(nav).display === 'none') {
-      nav.style.display = 'flex';
-    } else {
-      nav.style.display = 'none';
-    }
+    nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
   };
 
-  // Progress Bar بالا + نوار عمودی
-  window.addEventListener('scroll', () => {
-    const h = document.documentElement;
-    const scrolled = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
-    document.getElementById('progress').style.width = scrolled + '%';
-    document.getElementById('progress-side-inner').style.height = scrolled + '%';
-  });
+  // Progress فقط برای پست‌ها
+  if (document.body.classList.contains('post-page')) {
+    window.addEventListener('scroll', () => {
+      const h = document.documentElement;
+      const scrolled = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+      document.getElementById('progress').style.width = scrolled + '%';
+      document.getElementById('progress-side-inner').style.height = scrolled + '%';
+    });
+  }
 </script>
 
 </body>
