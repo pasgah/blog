@@ -8,7 +8,6 @@
 
   {% seo %}
 
-  <!-- فونت فارسی Vazirmatn -->
   <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600&display=swap" rel="stylesheet">
 
   <style>
@@ -137,6 +136,26 @@
       z-index: 200;
     }
 
+    /* نوار پیشرفت عمودی سمت چپ */
+    #progress-side {
+      position: fixed;
+      left: 8px;
+      top: 60px;
+      bottom: 20px;
+      width: 4px;
+      border-radius: 999px;
+      background: rgba(148,163,184,0.4);
+      overflow: hidden;
+      z-index: 150;
+    }
+    #progress-side-inner {
+      width: 100%;
+      height: 0%;
+      background: var(--link);
+      border-radius: 999px;
+      transition: height 0.1s linear;
+    }
+
     @media (max-width: 700px) {
       .nav-container {
         justify-content: space-between;
@@ -158,12 +177,16 @@
       .search-box input {
         width: 100%;
       }
+      #progress-side {
+        display:none;
+      }
     }
   </style>
 </head>
 
 <body>
 <div id="progress"></div>
+<div id="progress-side"><div id="progress-side-inner"></div></div>
 
 <header>
   <div class="nav-container">
@@ -201,7 +224,7 @@
 </div>
 
 <script>
-  // تم تاریک: پیش‌فرض dark اگر چیزی ذخیره نشده
+  // تم تاریک: پیش‌فرض dark
   const savedTheme = localStorage.getItem('theme');
   if (!savedTheme || savedTheme === 'dark') {
     document.body.classList.add('dark');
@@ -227,11 +250,12 @@
     }
   };
 
-  // Progress Bar
+  // Progress Bar بالا + نوار عمودی
   window.addEventListener('scroll', () => {
     const h = document.documentElement;
     const scrolled = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
     document.getElementById('progress').style.width = scrolled + '%';
+    document.getElementById('progress-side-inner').style.height = scrolled + '%';
   });
 </script>
 
