@@ -1,6 +1,6 @@
-title: "وبلاگ من"
-description: "توضیح کوتاه درباره وبلاگ"
-url: "https://pasgah.github.io"
+title: "وبلاگ پاسگاه"
+description: "تاریخ و تمدن ایران و جهان"
+url: "https://www.pasgah.org"
 baseurl: ""   # اگر در ساب‌پروژه است، اینجا مسیر رو بذار
 
 markdown: kramdown
