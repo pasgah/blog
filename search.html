@@ -1,0 +1,56 @@
+---
+layout: default
+title: جستجو
+permalink: /search/
+---
+
+<h2>جستجو</h2>
+
+<input id="search-input" type="text" placeholder="چی دنبالش می‌گردی؟" style="
+  width:100%;
+  max-width:400px;
+  padding:8px 12px;
+  border-radius:999px;
+  border:1px solid var(--border);
+  background:var(--card);
+  color:var(--text);
+">
+
+<ul id="results" style="list-style:none; padding:0; margin-top:1.5rem;"></ul>
+
+<script>
+  const posts = [
+    {% for post in site.posts %}
+    {
+      "title": {{ post.title | jsonify }},
+      "url": "{{ post.url | relative_url }}",
+      "excerpt": {{ post.excerpt | strip_html | truncate: 140 | jsonify }}
+    }{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  ];
+
+  const input = document.getElementById('search-input');
+  const results = document.getElementById('results');
+
+  input.addEventListener('input', function() {
+    const q = this.value.trim().toLowerCase();
+    results.innerHTML = '';
+    if (!q) return;
+
+    const matched = posts.filter(p =>
+      p.title.toLowerCase().includes(q) ||
+      p.excerpt.toLowerCase().includes(q)
+    );
+
+    matched.forEach(p => {
+      const li = document.createElement('li');
+      li.style.marginBottom = '1rem';
+      li.innerHTML = `<a href="${p.url}">${p.title}</a><p style="opacity:0.7; margin:0.3rem 0;">${p.excerpt}</p>`;
+      results.appendChild(li);
+    });
+
+    if (matched.length === 0) {
+      results.innerHTML = '<li>چیزی پیدا نشد.</li>';
+    }
+  });
+</script>
