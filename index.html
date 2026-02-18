@@ -7,15 +7,15 @@ title: خانه
 
 <ul style="list-style:none; padding:0; margin:1.5rem 0;">
   {% for post in site.posts limit:10 %}
-    <li style="margin-bottom:1.5rem; padding-bottom:1rem; border-bottom:1px solid #e5e7eb;">
+    <li style="margin-bottom:1.5rem; padding-bottom:1rem; border-bottom:1px solid var(--border);">
       <h3 style="margin:0 0 0.3rem;">
         <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
       </h3>
-      <p style="margin:0; font-size:0.85rem; color:#6b7280;">
+      <p style="margin:0; font-size:0.85rem; opacity:0.7;">
         {{ post.date | date: "%Y/%m/%d" }}
       </p>
       {% if post.excerpt %}
-        <p style="margin-top:0.5rem; font-size:0.95rem; color:#374151;">
+        <p style="margin-top:0.5rem; font-size:0.95rem;">
           {{ post.excerpt | strip_html | truncate: 140 }}
         </p>
       {% endif %}
