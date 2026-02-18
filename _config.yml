@@ -1,7 +1,7 @@
 title: "وبلاگ من"
 description: "توضیح کوتاه درباره وبلاگ"
 url: "https://pasgah.github.io"
-baseurl: ""  # اگر در ریشه نیست، مسیر را وارد کن
+baseurl: ""
 
 markdown: kramdown
 theme: null
@@ -11,26 +11,12 @@ plugins:
   - jekyll-seo-tag
   - jekyll-sitemap
 
-# ساختار پوشه‌ها
+permalink: /:categories/:title/
+
 collections:
   posts:
     output: true
 
-# تنظیمات سئو
-seo:
-  lang: fa_IR
-
-# فید RSS
-feed:
-  path: feed.xml
-
-# نمایش خلاصه پست‌ها
-excerpt_separator: "<!--more-->"
-
-# تنظیمات ساختار لینک‌ها
-permalink: /:categories/:title/
-
-# فعال‌سازی تگ‌ها و دسته‌بندی‌ها
 defaults:
   - scope:
       path: ""
@@ -38,6 +24,10 @@ defaults:
     values:
       layout: post
 
-# GitHub Pages
-github:
-  is_project_page: false
+excerpt_separator: "<!--more-->"
+
+feed:
+  path: feed.xml
+
+seo:
+  lang: fa_IR
